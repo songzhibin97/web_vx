@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Title</title>
+    {#引入bootstrap样式css文件#}
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    {#引入fount-awesome图标库css文件#}
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3>欢迎使用Web微信</h3></div>
+    <div class="panel-body">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home">最近联系人</a></li>
+                        <li><a href="/all_friend">好友列表</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <ul class="list-group">
+            {% for friend in json_data.MemberList %}
+            <li class="list-group-item"><a UserName="{{friend.UserName}}" class="send_choice">{{friend.NickName}}({{friend.RemarkName}})</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{#引入jQuery js文件#}
+<script src="/static/jquery-3.3.1.js"></script>
+{#引入bootstrap样式js文件#}
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+{#引入sweetlert弹出框js文件#}
+<script src="/static/sweetalert.min.js"></script>
+</body>
+</html>

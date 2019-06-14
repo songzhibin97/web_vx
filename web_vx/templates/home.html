@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>Web微信</title>
+    {#引入bootstrap样式css文件#}
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    {#引入fount-awesome图标库css文件#}
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+</head>
+<body>
+<div class="panel panel-default">
+    <div class="panel-heading"><h3>欢迎使用Web微信</h3></div>
+    <div class="panel-body">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                            data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a id="FromUserName" class="navbar-brand" href="#"
+                       UserName="{{json_data.User.UserName}}">{{json_data.User.NickName}}</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li><a href="/home">最近联系人</a></li>
+                        <li><a href="/all_friend">好友列表</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+        <ul class="list-group">
+            {% for cont in json_data.ContactList%}
+            <li class="list-group-item"><a UserName="{{cont.UserName}}" class="send_choice">{{cont.NickName}}</a></li>
+            {% endfor %}
+        </ul>
+    </div>
+</div>
+
+{#引入jQuery js文件#}
+<script src="/static/jquery-3.3.1.js"></script>
+{#引入bootstrap样式js文件#}
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+{#引入sweetlert弹出框js文件#}
+<script src="/static/sweetalert.min.js"></script>
+<script>
+    $(".send_choice").on('click', function () {
+        $.ajax({
+            url: '/send',
+            type: 'get',
+            data: {
+                "FromUserName": $("#FromUserName").attr('UserName'),
+                "ToUserName": $(this).attr("UserName")
+            },
+            success: function (data) {
+
+            }
+        })
+    })
+</script>
+</body>
+</html>

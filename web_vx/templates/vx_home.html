@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CH">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <title>微信网页版</title>
+    {#引入jQuery js文件#}
+    <script src="/static/jquery-3.3.1.js"></script>
+    {#引入bootstrap样式css文件#}
+    <link rel="stylesheet" href="/static/bootstrap-3.3.7-dist/css/bootstrap.min.css">
+    {#引入fount-awesome图标库css文件#}
+    <link rel="stylesheet" href="/static/font-awesome-4.7.0/css/font-awesome.css">
+    <style>
+        body {
+            background-color: #888888;
+        }
+
+        #logo {
+            color: white;
+            position: relative;
+            left: 5%;
+            top: 20px
+        }
+
+        #login_frame {
+            background-color: white;
+            position: fixed;
+            top: 17%;
+            bottom: 17%;
+            left: 33%;
+            right: 33%;
+        }
+
+        #or_code {
+            position: absolute;
+            top: 5%;
+            left: 15%;
+            right: 15%;
+        }
+
+        #h3 {
+            position: absolute;
+            top: 60%;
+            left: 23%;
+            right: 20%;
+        }
+
+        #h4 {
+            position: absolute;
+            top: 80%;
+            left: 23%;
+            right: 22%;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <i id="logo" class="fa fa-weixin fa-5x" aria-hidden="true"></i>
+</div>
+<div id="login_frame" class="contents">
+    <div>
+        <img src="https://login.weixin.qq.com/qrcode/{{dynamic_code}}" id="or_code" alt="" width="70%" height="56%">
+        <h3 id="h3">使用手机微信扫码登录</h3>
+        <h4 id="h4">网页版微信需要配合手机使用</h4>
+    </div>
+</div>
+
+{#引入bootstrap样式js文件#}
+<script src="/static/bootstrap-3.3.7-dist/js/bootstrap.min.js"></script>
+<script>
+    get_head_img();
+
+    function get_head_img() {
+        $.ajax({
+            url: '/head_code',
+            type: 'get',
+            success: function (data) {
+                if (data.code == 408) {
+                    // 未扫码
+                    get_head_img()
+                }
+                if (data.code == 201) {
+                    $('#or_code').attr("src", data.img);
+                    $("#h3").text('使用手机微信确认登录');
+                    $("#h4").empty();
+                    // 第一次扫码后获取头像
+                    get_head_img()
+                }
+                if (data.code == 200) {
+                    //  确认登录
+                    location.href = '/home'
+                }
+            }
+        })
+    }
+</script>
+</body>
+</html>
+
